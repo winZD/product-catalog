@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { Product, ProductResponse } from "../model/product";
 import { ProductCard } from "./ProductCard";
 import { handleFilter } from "../utils/filterProducts";
+import { Category } from "../model/category";
+import { priceRanges } from "../utils/ranges";
 
 export const ProductCatalog = () => {
   const [data, setData] = useState<ProductResponse>();
   const [filteredData, setFilteredData] = useState<ProductResponse>();
   const [searchQuery, setSearchQuery] = useState("");
-  const [itemsPerPage] = useState<number>(20);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   // Calculate paginated products
   /*   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -30,8 +33,21 @@ export const ProductCatalog = () => {
         console.error("Error fetching products:", error);
       }
     };
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          "https://dummyjson.com/products/categories"
+        );
+        const data = await response.json();
+
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
     fetchProducts();
+    fetchCategories();
   }, []);
 
   return (
@@ -58,11 +74,32 @@ export const ProductCatalog = () => {
             />
           </svg>
         </div>
+        <select
+          className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="">All Categories</option>
+          {categories!.map((cat) => (
+            <option key={cat.slug} value={cat.url}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+        <select
+          className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          /*  onChange={(e) => setSelectedPriceRange(e.target.value)} */
+        >
+          {priceRanges.map((range) => (
+            <option key={range.label} value={range.label}>
+              {range.label}
+            </option>
+          ))}
+        </select>
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           onClick={() => setFilteredData(handleFilter(searchQuery, data!))}
         >
-          Pretraži
+          Search
         </button>
       </div>
       <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
