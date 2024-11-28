@@ -43,3 +43,10 @@ export interface MetaData {
   barcode: string;
   qrCode: string; // URL as string
 }
+
+export type ProductResponse = {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+};
