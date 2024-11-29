@@ -4,28 +4,29 @@ import { ProductCard } from "./ProductCard";
 import { handleFilter } from "../utils/filterProducts";
 import { Category } from "../model/category";
 import { priceRanges } from "../utils/ranges";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export const ProductCatalog = () => {
   const [data, setData] = useState<ProductResponse>();
   const [filteredData, setFilteredData] = useState<ProductResponse>();
   const [searchQuery, setSearchQuery] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
+  /* const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-
+ */
   // Calculate paginated products
   /*   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const currentProducts = products.slice(startIndex, endIndex); */
 
-  useEffect(() => {
+  /*   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
           "https://dummyjson.com/products?limit=200"
         );
         const data = await response.json();
-        /* setData(data.products); */
+        //setData(data.products);
         setData(data);
         setFilteredData(data);
         console.log(data);
@@ -48,7 +49,46 @@ export const ProductCatalog = () => {
 
     fetchProducts();
     fetchCategories();
-  }, []);
+  }, []); */
+  const [page, setPage] = useState(0);
+  const limit = 20;
+
+  const fetchProducts = async (): Promise<ProductResponse> => {
+    const response = await fetch(
+      `https://dummyjson.com/products?limit=${limit}&skip=${page}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+    return response.json();
+  };
+
+  const fetchCategories = async (): Promise<Category[]> => {
+    const response = await fetch("https://dummyjson.com/products/categories");
+    if (!response.ok) {
+      throw new Error("Failed to fetch categories");
+    }
+    return response.json();
+  };
+  const {
+    data: products,
+    error: productsError,
+    isPending: productsLoading,
+  } = useQuery({
+    queryKey: ["products", page, limit],
+    queryFn: fetchProducts,
+  });
+  const {
+    data: categories,
+    error: categoriesError,
+    isPending: categoriesLoading,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
+  const totalPages = Math.ceil(products! && products!.total! / limit);
+  if (productsLoading || categoriesLoading) return <p>Loading...</p>;
+  if (productsError || categoriesError) return <p>Error loading data!</p>;
 
   return (
     <>
@@ -76,7 +116,7 @@ export const ProductCatalog = () => {
         </div>
         <select
           className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          onChange={(e) => setSelectedCategory(e.target.value)}
+          /* onChange={(e) => setSelectedCategory(e.target.value)} */
         >
           <option value="">All Categories</option>
           {categories!.map((cat) => (
@@ -101,9 +141,25 @@ export const ProductCatalog = () => {
         >
           Search
         </button>
+        <div className="flex justify-center mt-4">
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
+            onClick={() => setPage((old) => Math.max(old - 1, 0))}
+            disabled={page === 0}
+          >
+            Previous
+          </button>
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 ml-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
+            onClick={() => setPage((old) => old + 1)}
+            disabled={page === totalPages || page > totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
       <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
-        {filteredData?.products.map((product) => (
+        {products.products.map((product) => (
           <div key={product.id}>
             <ProductCard
               description={product.description}

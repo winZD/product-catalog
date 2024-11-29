@@ -46,7 +46,7 @@ export interface MetaData {
 
 export type ProductResponse = {
   products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
+  total?: number;
+  skip?: number;
+  limit?: number;
 };
