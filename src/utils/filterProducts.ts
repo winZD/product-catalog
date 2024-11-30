@@ -27,11 +27,11 @@ export const handleFilter = (
   // Step 1: Apply sorting based on the sortBy criteria
   const sortedProducts = filterByTitle.sort((a, b) => {
     // Sort by price (Ascending)
-    if (sortBy.name === "asc") {
+    if (sortBy.price === "asc") {
       return a.price - b.price; // Price: Lowest to Highest
     }
     // Sort by price (Descending)
-    if (sortBy.name === "desc") {
+    if (sortBy.price === "desc") {
       return b.price - a.price; // Price: Highest to Lowest
     }
     // Sort by name (Alphabetical - Ascending)
