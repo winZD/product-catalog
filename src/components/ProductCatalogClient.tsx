@@ -23,10 +23,7 @@ const ProductCatalogClient = () => {
     const currentProducts = products.slice(startIndex, endIndex); */
   const [page, setPage] = useState(0);
   const limit = 20;
-  const [sortBy, setSortBy] = useState({
-    name: "",
-    price: "",
-  });
+  const [sortBy, setSortBy] = useState("");
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -70,7 +67,7 @@ const ProductCatalogClient = () => {
         )!.products.slice(page * limit, (page + 1) * limit),
       });
     }
-  }, [searchQuery, sortBy, page, data, selectedCategory, priceRange]);
+  }, [searchQuery, sortBy, page, data, selectedCategory, priceRange, sortBy]);
 
   const totalPages = filteredData ? Math.ceil(filteredData.total! / limit) : 0;
 
@@ -133,6 +130,20 @@ const ProductCatalogClient = () => {
           ))}
         </select>
         {JSON.stringify(priceRange)}
+        <select
+          className="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          onChange={(e) => setSortBy(e.target.value)}
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Sort Products
+          </option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="title_asc">Name: A to Z</option>
+          <option value="title_desc">Name: Z to A</option>
+        </select>
+
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           onClick={() =>

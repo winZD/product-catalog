@@ -14,11 +14,7 @@ export const handleFilter = (
   title: string,
   data: ProductResponse,
 
-  sortBy: {
-    name: string;
-
-    price: string;
-  },
+  sortBy: string,
   priceRange: { min: number; max: number }
 ) => {
   const filterByTitle = data?.products.filter((product) =>
@@ -43,19 +39,19 @@ export const handleFilter = (
     )
     .sort((a, b) => {
       // Sort by price (Ascending)
-      if (sortBy.price === "asc") {
+      if (sortBy === "price_asc") {
         return a.price - b.price; // Price: Lowest to Highest
       }
       // Sort by price (Descending)
-      if (sortBy.price === "desc") {
+      if (sortBy === "price_desc") {
         return b.price - a.price; // Price: Highest to Lowest
       }
       // Sort by name (Alphabetical - Ascending)
-      if (sortBy.name === "asc") {
+      if (sortBy === "title_asc") {
         return a.title.toLowerCase().localeCompare(b.title); // Name: A to Z
       }
       // Sort by name (Alphabetical - Descending)
-      if (sortBy.name === "desc") {
+      if (sortBy === "title_desc") {
         return b.title.toLowerCase().localeCompare(a.title); // Name: Z to A
       }
       // Default: no sorting
