@@ -16,18 +16,17 @@ const ProductCatalogClient = () => {
   }>({ min: 0, max: Infinity });
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  // Calculate paginated products
-  /*   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-    const startIndex = (currentPage - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    const currentProducts = products.slice(startIndex, endIndex); */
   const [page, setPage] = useState(0);
   const limit = 20;
   const [sortBy, setSortBy] = useState("");
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`https://dummyjson.com/products?limit=0`);
+        const response = await fetch(
+          selectedCategory
+            ? selectedCategory
+            : `https://dummyjson.com/products?limit=0`
+        );
         const data = await response.json();
         //setData(data.products);
         setData(data);
@@ -53,7 +52,7 @@ const ProductCatalogClient = () => {
 
     fetchProducts();
     fetchCategories();
-  }, []);
+  }, [selectedCategory]);
   useEffect(() => {
     if (data) {
       /* const filtered = handleFilter(searchQuery, data, sortBy); //fix; */
@@ -103,7 +102,10 @@ const ProductCatalogClient = () => {
         </div>
         <select
           className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          /* onChange={(e) => setSelectedCategory(e.target.value)} */
+          onChange={(e) => {
+            setPage(0);
+            setSelectedCategory(e.target.value);
+          }}
         >
           <option value="">All Categories</option>
           {categories!.map((cat) => (
