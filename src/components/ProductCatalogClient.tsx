@@ -6,7 +6,7 @@ import { ProductResponse } from "../model/product";
 import { priceRanges } from "../utils/ranges";
 
 const ProductCatalogClient = () => {
-  const [data, setData] = useState<ProductResponse>();
+  const [originalData, setOriginalData] = useState<ProductResponse>();
   const [filteredData, setFilteredData] = useState<ProductResponse>();
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
@@ -29,7 +29,7 @@ const ProductCatalogClient = () => {
         );
         const data = await response.json();
         //setData(data.products);
-        setData(data);
+        setOriginalData(data);
         setFilteredData(handleFilter(searchQuery, data, sortBy, priceRange));
 
         console.log(data);
@@ -54,19 +54,27 @@ const ProductCatalogClient = () => {
     fetchCategories();
   }, [selectedCategory]);
   useEffect(() => {
-    if (data) {
+    if (originalData) {
       /* const filtered = handleFilter(searchQuery, data, sortBy); //fix; */
       setFilteredData({
         ...filteredData,
         products: handleFilter(
           searchQuery,
-          data,
+          originalData,
           sortBy,
           priceRange
         )!.products.slice(page * limit, (page + 1) * limit),
       });
     }
-  }, [searchQuery, sortBy, page, data, selectedCategory, priceRange, sortBy]);
+  }, [
+    searchQuery,
+    sortBy,
+    page,
+    originalData,
+    selectedCategory,
+    priceRange,
+    sortBy,
+  ]);
 
   const totalPages = filteredData ? Math.ceil(filteredData.total! / limit) : 0;
 
@@ -150,7 +158,7 @@ const ProductCatalogClient = () => {
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           onClick={() =>
             setFilteredData(
-              handleFilter(searchQuery, data!, sortBy, priceRange)
+              handleFilter(searchQuery, originalData!, sortBy, priceRange)
             )
           }
         >
