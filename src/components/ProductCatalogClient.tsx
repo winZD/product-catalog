@@ -10,7 +10,10 @@ const ProductCatalogClient = () => {
   const [filteredData, setFilteredData] = useState<ProductResponse>();
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
-
+  const [priceRange, setPriceRange] = useState<{
+    min: number;
+    max: number;
+  }>({ min: 0, max: Infinity });
   const [selectedCategory, setSelectedCategory] = useState("");
 
   // Calculate paginated products
@@ -22,7 +25,7 @@ const ProductCatalogClient = () => {
   const limit = 20;
   const [sortBy, setSortBy] = useState({
     name: "",
-    price: "asc",
+    price: "",
   });
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,7 +34,7 @@ const ProductCatalogClient = () => {
         const data = await response.json();
         //setData(data.products);
         setData(data);
-        setFilteredData(handleFilter(searchQuery, data, sortBy));
+        setFilteredData(handleFilter(searchQuery, data, sortBy, priceRange));
 
         console.log(data);
       } catch (error) {
@@ -59,13 +62,15 @@ const ProductCatalogClient = () => {
       /* const filtered = handleFilter(searchQuery, data, sortBy); //fix; */
       setFilteredData({
         ...filteredData,
-        products: handleFilter(searchQuery, data, sortBy)!.products.slice(
-          page * limit,
-          (page + 1) * limit
-        ),
+        products: handleFilter(
+          searchQuery,
+          data,
+          sortBy,
+          priceRange
+        )!.products.slice(page * limit, (page + 1) * limit),
       });
     }
-  }, [searchQuery, sortBy, page, data, selectedCategory]);
+  }, [searchQuery, sortBy, page, data, selectedCategory, priceRange]);
 
   const totalPages = filteredData ? Math.ceil(filteredData.total! / limit) : 0;
 
@@ -112,18 +117,28 @@ const ProductCatalogClient = () => {
         </select>
         <select
           className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          /*  onChange={(e) => setSelectedPriceRange(e.target.value)} */
+          onChange={(e) => {
+            setPage(0);
+            const range = priceRanges.find((r) => r.label === e.target.value);
+            if (range) {
+              setPriceRange({ min: range.min, max: range.max });
+            }
+          }}
         >
+          {" "}
           {priceRanges.map((range) => (
             <option key={range.label} value={range.label}>
               {range.label}
             </option>
           ))}
         </select>
+        {JSON.stringify(priceRange)}
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           onClick={() =>
-            setFilteredData(handleFilter(searchQuery, data!, sortBy))
+            setFilteredData(
+              handleFilter(searchQuery, data!, sortBy, priceRange)
+            )
           }
         >
           Search
