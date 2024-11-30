@@ -132,12 +132,12 @@ const ProductCatalogClient = () => {
         {JSON.stringify(priceRange)}
         <select
           className="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          onChange={(e) => setSortBy(e.target.value)}
-          defaultValue=""
+          onChange={(e) => {
+            setPage(0);
+            setSortBy(e.target.value);
+          }}
         >
-          <option value="" disabled>
-            Sort Products
-          </option>
+          <option value="">Sort Products</option>
           <option value="price_asc">Price: Low to High</option>
           <option value="price_desc">Price: High to Low</option>
           <option value="title_asc">Name: A to Z</option>
