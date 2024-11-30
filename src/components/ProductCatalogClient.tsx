@@ -21,7 +21,7 @@ const ProductCatalogClient = () => {
   const [page, setPage] = useState(0);
   const limit = 20;
   const [sortBy, setSortBy] = useState({
-    name: "asc",
+    name: "",
     price: "asc",
   });
   useEffect(() => {
@@ -59,13 +59,13 @@ const ProductCatalogClient = () => {
       /* const filtered = handleFilter(searchQuery, data, sortBy); //fix; */
       setFilteredData({
         ...filteredData,
-        products: filteredData!.products.slice(
+        products: handleFilter(searchQuery, data, sortBy)!.products.slice(
           page * limit,
           (page + 1) * limit
         ),
       });
     }
-  }, [searchQuery, sortBy, page, data]);
+  }, [searchQuery, sortBy, page, data, selectedCategory]);
 
   const totalPages = filteredData ? Math.ceil(filteredData.total! / limit) : 0;
 
@@ -80,7 +80,10 @@ const ProductCatalogClient = () => {
             type="text"
             placeholder="Search..."
             className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setPage(0);
+              setSearchQuery(e.target.value);
+            }}
           />
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
@@ -140,7 +143,9 @@ const ProductCatalogClient = () => {
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 ml-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
             onClick={() => setPage((prev) => prev + 1)}
-            disabled={page + 1 >= totalPages}
+            disabled={
+              page + 1 >= totalPages || filteredData!.products?.length < 20
+            }
           >
             Next
           </button>
