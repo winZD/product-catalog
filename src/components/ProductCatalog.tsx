@@ -10,25 +10,28 @@ export const ProductCatalog = () => {
   const [data, setData] = useState<ProductResponse>();
   const [filteredData, setFilteredData] = useState<ProductResponse>();
   const [searchQuery, setSearchQuery] = useState("");
-  /* const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const [selectedCategory, setSelectedCategory] = useState("");
- */
+
   // Calculate paginated products
   /*   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
   const startIndex = (currentPage - 1) * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   const currentProducts = products.slice(startIndex, endIndex); */
-
-  /*   useEffect(() => {
+  const [page, setPage] = useState(0);
+  const limit = 20;
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
-          "https://dummyjson.com/products?limit=200"
+          `https://dummyjson.com/products?limit=${limit}&skip=${page}`
         );
         const data = await response.json();
         //setData(data.products);
         setData(data);
         setFilteredData(data);
+
         console.log(data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -49,11 +52,15 @@ export const ProductCatalog = () => {
 
     fetchProducts();
     fetchCategories();
-  }, []); */
-  const [page, setPage] = useState(0);
-  const limit = 20;
+  }, [page]);
 
-  const fetchProducts = async (): Promise<ProductResponse> => {
+  const totalPages = Math.ceil(filteredData! && filteredData!.total! / limit);
+
+  const [sortBy, setSortBy] = useState({
+    name: "",
+    price: "",
+  });
+  /*   const fetchProducts = async (): Promise<ProductResponse> => {
     const response = await fetch(
       `https://dummyjson.com/products?limit=${limit}&skip=${page}`
     );
@@ -75,7 +82,7 @@ export const ProductCatalog = () => {
     error: productsError,
     isPending: productsLoading,
   } = useQuery({
-    queryKey: ["products", page, limit],
+    queryKey: ["products", page, limit, searchQuery],
     queryFn: fetchProducts,
   });
   const {
@@ -85,10 +92,11 @@ export const ProductCatalog = () => {
   } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
+    
   });
   const totalPages = Math.ceil(products! && products!.total! / limit);
   if (productsLoading || categoriesLoading) return <p>Loading...</p>;
-  if (productsError || categoriesError) return <p>Error loading data!</p>;
+  if (productsError || categoriesError) return <p>Error loading data!</p>; */
 
   return (
     <>
@@ -137,38 +145,41 @@ export const ProductCatalog = () => {
         </select>
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-          onClick={() => setFilteredData(handleFilter(searchQuery, data!))}
+          onClick={() =>
+            setFilteredData(handleFilter(searchQuery, data!, sortBy))
+          }
         >
           Search
         </button>
         <div className="flex justify-center mt-4">
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            onClick={() => setPage((old) => Math.max(old - 1, 0))}
+            onClick={() => setPage((old) => Math.max(old - 20, 0))}
             disabled={page === 0}
           >
             Previous
           </button>
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 ml-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            onClick={() => setPage((old) => old + 1)}
-            disabled={page === totalPages || page > totalPages}
+            onClick={() => setPage((old) => old + 20)}
+            disabled={page / 20 + 1 >= totalPages}
           >
             Next
           </button>
         </div>
       </div>
       <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
-        {products.products.map((product) => (
-          <div key={product.id}>
-            <ProductCard
-              description={product.description}
-              thumbnail={product.thumbnail}
-              title={product.title}
-              price={product.price}
-            />
-          </div>
-        ))}
+        {filteredData &&
+          handleFilter(searchQuery, data!, sortBy)!.products.map((product) => (
+            <div key={product.id}>
+              <ProductCard
+                description={product.description}
+                thumbnail={product.thumbnail}
+                title={product.title}
+                price={product.price}
+              />
+            </div>
+          ))}
       </div>
     </>
   );
