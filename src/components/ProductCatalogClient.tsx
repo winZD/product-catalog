@@ -21,8 +21,8 @@ const ProductCatalogClient = () => {
   const [page, setPage] = useState(0);
   const limit = 20;
   const [sortBy, setSortBy] = useState({
-    name: "desc",
-    price: "desc",
+    name: "asc",
+    price: "asc",
   });
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,7 +31,7 @@ const ProductCatalogClient = () => {
         const data = await response.json();
         //setData(data.products);
         setData(data);
-        setFilteredData(data);
+        setFilteredData(handleFilter(searchQuery, data, sortBy));
 
         console.log(data);
       } catch (error) {
@@ -56,10 +56,13 @@ const ProductCatalogClient = () => {
   }, []);
   useEffect(() => {
     if (data) {
-      const filtered = handleFilter(searchQuery, data, sortBy);
+      /* const filtered = handleFilter(searchQuery, data, sortBy); //fix; */
       setFilteredData({
-        ...filtered,
-        products: filtered.products.slice(page * limit, (page + 1) * limit),
+        ...filteredData,
+        products: filteredData!.products.slice(
+          page * limit,
+          (page + 1) * limit
+        ),
       });
     }
   }, [searchQuery, sortBy, page, data]);
@@ -122,6 +125,7 @@ const ProductCatalogClient = () => {
         >
           Search
         </button>
+
         <div className="flex justify-center mt-4">
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
@@ -129,6 +133,9 @@ const ProductCatalogClient = () => {
             disabled={page === 0}
           >
             Previous
+          </button>
+          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+            {page + 1}
           </button>
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 ml-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
