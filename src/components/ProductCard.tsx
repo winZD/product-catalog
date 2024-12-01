@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Product } from "../model/product";
 import { Modal } from "./ProductModal";
+import { jwtDecode } from "jwt-decode";
 
 export const ProductCard: React.FC<Product> = ({
   thumbnail,
@@ -12,6 +13,11 @@ export const ProductCard: React.FC<Product> = ({
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+  const decoded = jwtDecode(localStorage.getItem("at") || "");
+  if ((decoded && decoded.exp!) < Date.now() / 1000) {
+    localStorage.clear();
+  }
+
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300">
       <img
@@ -19,6 +25,7 @@ export const ProductCard: React.FC<Product> = ({
         alt={title}
         className="w-full h-48 object-cover rounded-t-lg"
       />
+
       <div className="p-4">
         <h3 className="text-lg font-semibold text-gray-800 truncate">
           {title}
@@ -46,7 +53,12 @@ export const ProductCard: React.FC<Product> = ({
         />
         <p>{description}</p>
         <p className="text-green-700 font-bold mt-2">${price}</p>
-        <button className="bg-blue-600 rounded-lg p-2">KOŠARICA</button>
+        <button
+          className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2"
+          disabled={true}
+        >
+          KOŠARICA
+        </button>
       </Modal>
     </div>
   );
