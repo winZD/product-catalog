@@ -2,6 +2,8 @@ import { ProductCatalog } from "./components/ProductCatalog";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProductCatalogClient from "./components/ProductCatalogClient";
 import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./components/Login";
 
 const queryClient = new QueryClient();
 
@@ -31,7 +33,20 @@ function App() {
             </label>
           </div>
         </header>
-        {serverPagination ? <ProductCatalog /> : <ProductCatalogClient />}
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                serverPagination ? <ProductCatalog /> : <ProductCatalogClient />
+              }
+            />
+            <Route path="login" element={<Login />}>
+              {/* <Route index element={<RecentActivity />} />
+        <Route path="project/:id" element={<Project />} /> */}
+            </Route>
+          </Routes>
+        </BrowserRouter>
       </QueryClientProvider>
     </>
   );

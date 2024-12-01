@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Product, ProductResponse } from "../model/product";
 import { ProductCard } from "./ProductCard";
-import { handleFilter } from "../utils/filterProducts";
+import { handleFilter, handleFilterServer } from "../utils/filterProducts";
 import { Category } from "../model/category";
 import { priceRanges } from "../utils/ranges";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
@@ -146,7 +146,7 @@ export const ProductCatalog = () => {
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           onClick={() =>
-            setFilteredData(handleFilter(searchQuery, data!, sortBy))
+            setFilteredData(handleFilterServer(searchQuery, data!, sortBy))
           }
         >
           Search
@@ -170,16 +170,18 @@ export const ProductCatalog = () => {
       </div>
       <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
         {filteredData &&
-          handleFilter(searchQuery, data!, sortBy)!.products.map((product) => (
-            <div key={product.id}>
-              <ProductCard
-                description={product.description}
-                thumbnail={product.thumbnail}
-                title={product.title}
-                price={product.price}
-              />
-            </div>
-          ))}
+          handleFilterServer(searchQuery, data!, sortBy)!.products.map(
+            (product) => (
+              <div key={product.id}>
+                <ProductCard
+                  description={product.description}
+                  thumbnail={product.thumbnail}
+                  title={product.title}
+                  price={product.price}
+                />
+              </div>
+            )
+          )}
       </div>
     </>
   );

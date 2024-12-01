@@ -46,6 +46,7 @@ export const ProductCard: React.FC<Product> = ({
         />
         <p>{description}</p>
         <p className="text-green-700 font-bold mt-2">${price}</p>
+        <button className="bg-blue-600 rounded-lg p-2">KOŠARICA</button>
       </Modal>
     </div>
   );
