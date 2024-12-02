@@ -27,7 +27,7 @@ const Login = () => {
 
       console.log(data);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching user:", error);
     }
   };
 

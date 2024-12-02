@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "../model/product";
 import { Modal } from "./ProductModal";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 export const ProductCard: React.FC<Product> = ({
   thumbnail,
@@ -9,14 +10,49 @@ export const ProductCard: React.FC<Product> = ({
   description,
   price,
 }) => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  let invalid = false;
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
-  const decoded = jwtDecode(localStorage.getItem("at") || "");
-  if ((decoded && decoded.exp!) < Date.now() / 1000) {
-    localStorage.clear();
-  }
+  const at = localStorage?.getItem("at");
+  const decoded = at ? jwtDecode(at!) : 0;
+  console.log(decoded);
+  /* 
+  useEffect(() => {
+    if ((decoded && decoded.exp!) < Date.now() / 1000) {
+      localStorage.clear();
+      const authenticate = async (): Promise<void> => {
+        try {
+          const response = await fetch("https://dummyjson.com/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: "emilys",
+              password: "emilyspass",
+              expiresInMins: 30, // optional, defaults to 60
+            }),
+            // credentials: "include", // Include cookies (e.g., accessToken) in the request
+          });
+
+          const data = await response.json();
+
+          if (data) {
+            localStorage.setItem("at", data.accessToken);
+            localStorage.setItem("rt", data.refreshToken);
+            invalid = false;
+          }
+
+          console.log(data);
+        } catch (error) {
+          console.error("Error fetching user:", error);
+        }
+      };
+      authenticate();
+    }
+  }, [decoded]); */
 
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300">
@@ -55,7 +91,7 @@ export const ProductCard: React.FC<Product> = ({
         <p className="text-green-700 font-bold mt-2">${price}</p>
         <button
           className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2"
-          disabled={true}
+          disabled={invalid}
         >
           KOŠARICA
         </button>

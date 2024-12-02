@@ -4,17 +4,18 @@ import ProductCatalogClient from "./components/ProductCatalogClient";
 import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
+import Layout from "./components/Layout";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const [serverPagination, setServerPagination] = useState(false);
-  console.log(serverPagination);
+  /*  const [serverPagination, setServerPagination] = useState(false);
+  console.log(serverPagination); */
   return (
     <>
       {" "}
       <QueryClientProvider client={queryClient}>
-        <header className="flex p-3 justify-center items-center bg-blue-400">
+        {/*         <header className="flex p-3 justify-center items-center bg-blue-400">
           CATALOG
           <div className="flex items-center">
             <span className="mr-3 text-gray-700">Toggle:</span>
@@ -32,16 +33,12 @@ function App() {
               <div className="absolute top-0.5 left-1 w-5 h-5 bg-white border rounded-full peer-checked:translate-x-full peer-checked:border-white"></div>
             </label>
           </div>
-        </header>
+        </header> */}
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/"
-              element={
-                serverPagination ? <ProductCatalog /> : <ProductCatalogClient />
-              }
-            />
-            <Route path="login" element={<Login />}>
+            {" "}
+            <Route path="/" element={<Layout />} />
+            <Route path="/login" element={<Login />}>
               {/* <Route index element={<RecentActivity />} />
         <Route path="project/:id" element={<Project />} /> */}
             </Route>
