@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import ProductCatalogClient from "./ProductCatalogClient";
 import { ProductCatalog } from "./ProductCatalog";
 import { useNavigate } from "react-router-dom";
+import { store } from "../store/store";
+import { useSnapshot } from "valtio";
 
 const Layout = () => {
   const [serverPagination, setServerPagination] = useState(false);
   const navigate = useNavigate();
 
   const [cartCount, setCartCount] = useState(0);
+  const snap = useSnapshot(store);
 
   useEffect(() => {
     // Initialize cart count from localStorage on first render
-    const initialCart = JSON.parse(localStorage.getItem("product") || "[]");
-    setCartCount(initialCart.length);
+    store.cart = JSON.parse(localStorage.getItem("product") || "[]");
   }, []);
 
   return (
@@ -36,11 +38,12 @@ const Layout = () => {
             </label>
           </div>
           <div>
+            {/* {JSON.stringify(snap.cart)} */}
             <button
               className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white"
               onClick={() => navigate("/cart")}
             >
-              {`KOŠARICA ${cartCount}`}
+              {`KOŠARICA ${snap.cart.length}`}
             </button>
             <button className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white">
               {`Logged in as  ${"GUEST"}`}

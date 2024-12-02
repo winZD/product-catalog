@@ -3,6 +3,7 @@ import { Product } from "../model/product";
 import { Modal } from "./ProductModal";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { store } from "../store/store";
 
 export const ProductCard: React.FC<Product> = ({
   thumbnail,
@@ -96,11 +97,13 @@ export const ProductCard: React.FC<Product> = ({
             const existingCart = JSON.parse(
               localStorage.getItem("product") || "[]"
             );
+
             const updatedCart = [
               ...existingCart,
               { thumbnail, title, description, price },
             ];
             localStorage.setItem("product", JSON.stringify(updatedCart));
+            store.cart = updatedCart;
           }}
         >
           KOŠARICA

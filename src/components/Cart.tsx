@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-
-interface Cart {
-  thumbnail: string;
-  title: string;
-  description: string;
-  price: number;
-}
+import { CartModel } from "../model/cart";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState<Cart[]>(
+  const [cartItems, setCartItems] = useState<CartModel[]>(
     JSON.parse(localStorage.getItem("product") || "[]")
   );
   const [totalPrice, setTotalPrice] = useState(0);
