@@ -92,6 +92,16 @@ export const ProductCard: React.FC<Product> = ({
         <button
           className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2"
           disabled={invalid}
+          onClick={() => {
+            const existingCart = JSON.parse(
+              localStorage.getItem("product") || "[]"
+            );
+            const updatedCart = [
+              ...existingCart,
+              { thumbnail, title, description, price },
+            ];
+            localStorage.setItem("product", JSON.stringify(updatedCart));
+          }}
         >
           KOŠARICA
         </button>

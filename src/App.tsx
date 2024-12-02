@@ -5,6 +5,7 @@ import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Layout from "./components/Layout";
+import Cart from "./components/Cart";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ function App() {
               {/* <Route index element={<RecentActivity />} />
         <Route path="project/:id" element={<Project />} /> */}
             </Route>
+            <Route path="/cart" element={<Cart />}></Route>
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

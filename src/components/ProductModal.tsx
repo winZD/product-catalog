@@ -7,6 +7,8 @@ interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
+  console.log("MODALl");
+
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-lg relative">
