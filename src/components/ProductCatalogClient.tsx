@@ -192,29 +192,8 @@ const ProductCatalogClient = () => {
             <option value="title_desc">Name: Z to A</option>
           </select>
         </div>
-
-        <div className="flex justify-center mt-4">
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-            disabled={page === 0}
-          >
-            Previous
-          </button>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
-            {page + 1}
-          </button>
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 ml-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            onClick={() => setPage((prev) => prev + 1)}
-            disabled={
-              page + 1 >= totalPages || filteredData!.products?.length < 20
-            }
-          >
-            Next
-          </button>
-        </div>
       </div>
+
       <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
         {filteredData &&
           filteredData.products.map((product) => (
@@ -227,6 +206,27 @@ const ProductCatalogClient = () => {
               />
             </div>
           ))}
+      </div>
+      <div className="flex justify-end mt-4 gap-x-3">
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
+          onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+          disabled={page === 0}
+        >
+          Previous
+        </button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+          {page + 1}
+        </button>
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={
+            page + 1 >= totalPages || filteredData!.products?.length < 20
+          }
+        >
+          Next
+        </button>
       </div>
     </>
   );
