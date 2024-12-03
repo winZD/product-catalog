@@ -4,14 +4,21 @@ import { ProductCatalog } from "./ProductCatalog";
 import { useNavigate } from "react-router-dom";
 import { store } from "../store/store";
 import { useSnapshot } from "valtio";
-
+import { jwtDecode } from "jwt-decode";
+interface DecodedToken {
+  username: string;
+  exp: number;
+  // add other fields based on your JWT structure
+}
 const Layout = () => {
   const [serverPagination, setServerPagination] = useState(false);
   const navigate = useNavigate();
 
   const [cartCount, setCartCount] = useState(0);
   const snap = useSnapshot(store);
-
+  const at = localStorage?.getItem("at");
+  const decoded: DecodedToken | null = at ? jwtDecode(at) : null;
+  const userName = decoded?.username || "GUEST";
   useEffect(() => {
     // Initialize cart count from localStorage on first render
     store.cart = JSON.parse(localStorage.getItem("product") || "[]");
@@ -46,7 +53,7 @@ const Layout = () => {
               {`KOŠARICA ${snap.cart.length}`}
             </button>
             <button className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white">
-              {`Logged in as  ${"GUEST"}`}
+              {`Logged in as  ${decoded ? userName : "GUEST"}`}
             </button>
           </div>
         </div>

@@ -21,39 +21,8 @@ export const ProductCard: React.FC<Product> = ({
   const at = localStorage?.getItem("at");
   const decoded = at ? jwtDecode(at!) : 0;
   console.log(decoded);
-  /* 
-  useEffect(() => {
-    if ((decoded && decoded.exp!) < Date.now() / 1000) {
-      localStorage.clear();
-      const authenticate = async (): Promise<void> => {
-        try {
-          const response = await fetch("https://dummyjson.com/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              username: "emilys",
-              password: "emilyspass",
-              expiresInMins: 30, // optional, defaults to 60
-            }),
-            // credentials: "include", // Include cookies (e.g., accessToken) in the request
-          });
-
-          const data = await response.json();
-
-          if (data) {
-            localStorage.setItem("at", data.accessToken);
-            localStorage.setItem("rt", data.refreshToken);
-            invalid = false;
-          }
-
-          console.log(data);
-        } catch (error) {
-          console.error("Error fetching user:", error);
-        }
-      };
-      authenticate();
-    }
-  }, [decoded]); */
+  /*
+   */
 
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300">

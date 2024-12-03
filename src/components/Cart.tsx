@@ -1,11 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { CartModel } from "../model/cart";
+import { jwtDecode } from "jwt-decode";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartModel[]>(
     JSON.parse(localStorage.getItem("product") || "[]")
   );
+  const authenticate = async (): Promise<void> => {
+    try {
+      const response = await fetch("https://dummyjson.com/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: "emilys",
+          password: "emilyspass",
+          expiresInMins: 30, // optional, defaults to 60
+        }),
+        // credentials: "include", // Include cookies (e.g., accessToken) in the request
+      });
+
+      const data = await response.json();
+
+      if (data) {
+        localStorage.setItem("at", data.accessToken);
+        localStorage.setItem("rt", data.refreshToken);
+      }
+
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  };
+  const at = localStorage?.getItem("at");
+  const decoded = at ? jwtDecode(at!) : 0;
   const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    if ((decoded && decoded.exp!) < Date.now() / 1000) {
+      localStorage.clear();
+    }
+  }, [decoded]);
 
   /* useEffect(() => {
       // Mocked fetch, replace with actual API call if needed
@@ -73,7 +107,14 @@ const Cart = () => {
             <h2 className="text-xl font-bold">
               Total: {"formatCurrency(totalPrice)"}
             </h2>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600">
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600"
+              onClick={async () => {
+                if (!decoded || (decoded && decoded.exp!) < Date.now() / 1000) {
+                  await authenticate();
+                }
+              }}
+            >
               Proceed to Checkout
             </button>
           </div>
