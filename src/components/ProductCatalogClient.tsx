@@ -80,11 +80,14 @@ const ProductCatalogClient = () => {
 
   return (
     <>
-      {page}
-      <br />
-      {totalPages}
-      <div className="w-full flex justify-evenly">
-        <div className="relative">
+      <div className="w-full flex justify-evenly border-b-2 border-blue-500 ">
+        <div className="relative ">
+          <label
+            htmlFor="category-filter"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Search
+          </label>
           <input
             type="text"
             placeholder="Search..."
@@ -108,51 +111,75 @@ const ProductCatalogClient = () => {
             />
           </svg>
         </div>
-        <select
-          className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          onChange={(e) => {
-            setPage(0);
-            setSelectedCategory(e.target.value);
-          }}
-        >
-          <option value="">All Categories</option>
-          {categories!.map((cat) => (
-            <option key={cat.slug} value={cat.url}>
-              {cat.name}
-            </option>
-          ))}
-        </select>
-        <select
-          className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          onChange={(e) => {
-            setPage(0);
-            const range = priceRanges.find((r) => r.label === e.target.value);
-            if (range) {
-              setPriceRange({ min: range.min, max: range.max });
-            }
-          }}
-        >
-          {" "}
-          {priceRanges.map((range) => (
-            <option key={range.label} value={range.label}>
-              {range.label}
-            </option>
-          ))}
-        </select>
-        {JSON.stringify(priceRange)}
-        <select
-          className="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          onChange={(e) => {
-            setPage(0);
-            setSortBy(e.target.value);
-          }}
-        >
-          <option value="">Sort Products</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
-          <option value="title_asc">Name: A to Z</option>
-          <option value="title_desc">Name: Z to A</option>
-        </select>
+        <div className="">
+          <label
+            htmlFor="category-filter"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Categories
+          </label>
+          <select
+            id="category-filter"
+            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            onChange={(e) => {
+              setPage(0);
+              setSelectedCategory(e.target.value);
+            }}
+          >
+            <option value="">All</option>
+            {categories!.map((cat) => (
+              <option key={cat.slug} value={cat.url}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="">
+          <label
+            htmlFor="category-filter"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Prices
+          </label>
+          <select
+            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            onChange={(e) => {
+              setPage(0);
+              const range = priceRanges.find((r) => r.label === e.target.value);
+              if (range) {
+                setPriceRange({ min: range.min, max: range.max });
+              }
+            }}
+          >
+            {" "}
+            {priceRanges.map((range) => (
+              <option key={range.label} value={range.label}>
+                {range.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="">
+          <label
+            htmlFor="category-filter"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Sort products
+          </label>
+          <select
+            className="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            onChange={(e) => {
+              setPage(0);
+              setSortBy(e.target.value);
+            }}
+          >
+            <option value="">Sort Products</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="title_asc">Name: A to Z</option>
+            <option value="title_desc">Name: Z to A</option>
+          </select>
+        </div>
 
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
