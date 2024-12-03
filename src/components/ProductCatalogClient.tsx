@@ -81,35 +81,47 @@ const ProductCatalogClient = () => {
   return (
     <>
       <div className="w-full flex justify-evenly border-b-2 border-blue-500 ">
-        <div className="relative ">
+        <div className="">
           <label
             htmlFor="category-filter"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             Search
           </label>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            onChange={(e) => {
-              setPage(0);
-              setSearchQuery(e.target.value);
-            }}
-          />
-          <svg
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.74 11.74a8 8 0 1 0-1.42 1.42l4.5 4.5a1 1 0 0 0 1.42-1.42l-4.5-4.5zm-7.74-.74a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"
+          <div className="flex relative">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              onChange={(e) => {
+                setPage(0);
+                setSearchQuery(e.target.value);
+              }}
             />
-          </svg>
+            <svg
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.74 11.74a8 8 0 1 0-1.42 1.42l4.5 4.5a1 1 0 0 0 1.42-1.42l-4.5-4.5zm-7.74-.74a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"
+              />
+            </svg>
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+              onClick={() =>
+                setFilteredData(
+                  handleFilter(searchQuery, originalData!, sortBy, priceRange)
+                )
+              }
+            >
+              Search
+            </button>
+          </div>
         </div>
         <div className="">
           <label
@@ -180,17 +192,6 @@ const ProductCatalogClient = () => {
             <option value="title_desc">Name: Z to A</option>
           </select>
         </div>
-
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-          onClick={() =>
-            setFilteredData(
-              handleFilter(searchQuery, originalData!, sortBy, priceRange)
-            )
-          }
-        >
-          Search
-        </button>
 
         <div className="flex justify-center mt-4">
           <button
