@@ -14,7 +14,6 @@ const Layout = () => {
   const [serverPagination, setServerPagination] = useState(false);
   const navigate = useNavigate();
 
-  const [cartCount, setCartCount] = useState(0);
   const snap = useSnapshot(store);
   const at = localStorage?.getItem("at");
   const decoded: DecodedToken | null = at ? jwtDecode(at) : null;
@@ -28,8 +27,8 @@ const Layout = () => {
     <>
       <header className="flex p-3 justify-center items-center bg-blue-400">
         <div className="flex items-center justify-between w-full">
-          <div>
-            <span className="mr-3 text-gray-700">Toggle:</span>
+          <div className="flex gap-x-1 items-center">
+            <span className="mr-3 text-gray-700">SERVER PAGINATION</span>
             <label
               htmlFor="toggleSwitch"
               className="relative inline-flex items-center cursor-pointer"
@@ -44,15 +43,14 @@ const Layout = () => {
               <div className="absolute top-0.5 left-1 w-5 h-5 bg-white border rounded-full peer-checked:translate-x-full peer-checked:border-white"></div>
             </label>
           </div>
-          <div>
-            {/* {JSON.stringify(snap.cart)} */}
+          <div className="flex gap-x-3">
             <button
-              className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white"
+              className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white"
               onClick={() => navigate("/cart")}
             >
-              {`KOŠARICA ${snap.cart.length}`}
+              {`CART ${snap.cart.length ? snap.cart.length : ""}`}
             </button>
-            <button className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white">
+            <button className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white">
               {`Logged in as  ${decoded ? userName : "GUEST"}`}
             </button>
           </div>

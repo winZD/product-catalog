@@ -80,7 +80,7 @@ const ProductCatalogClient = () => {
 
   return (
     <>
-      <div className="w-full flex justify-evenly border-b-2 border-blue-500 ">
+      <div className="w-full flex justify-evenly border-b-2  bg-blue-100">
         <div className="">
           <label
             htmlFor="category-filter"
