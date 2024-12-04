@@ -208,7 +208,7 @@ const ProductCatalogClient = () => {
             </div>
           ))}
       </div>
-      <div className="flex justify-end mt-4 gap-x-3">
+      <div className="flex justify-end mt-4 gap-x-3 w-full py-1 px-3">
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
           onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
