@@ -80,14 +80,14 @@ const ProductCatalogClient = () => {
 
   return (
     <>
-      <div className="w-full flex justify-evenly border-b-2  bg-blue-100">
+      <div className="w-full flex justify-evenly p-3 bg-blue-100">
         <div className="">
-          <label
+          {/*      <label
             htmlFor="category-filter"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             Search
-          </label>
+          </label> */}
           <div className="flex relative">
             <input
               type="text"
@@ -124,12 +124,12 @@ const ProductCatalogClient = () => {
           </div>
         </div>
         <div className="">
-          <label
+          {/*      <label
             htmlFor="category-filter"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             Categories
-          </label>
+          </label> */}
           <select
             id="category-filter"
             className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -147,12 +147,12 @@ const ProductCatalogClient = () => {
           </select>
         </div>
         <div className="">
-          <label
+          {/*  <label
             htmlFor="category-filter"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             Prices
-          </label>
+          </label> */}
           <select
             className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => {
@@ -172,12 +172,12 @@ const ProductCatalogClient = () => {
           </select>
         </div>
         <div className="">
-          <label
+          {/* <label
             htmlFor="category-filter"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
             Sort products
-          </label>
+          </label> */}
           <select
             className="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => {
@@ -197,8 +197,9 @@ const ProductCatalogClient = () => {
       <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
         {filteredData &&
           filteredData.products.map((product) => (
-            <div key={product.id}>
+            <div key={product.id} className="flex justify-center">
               <ProductCard
+                id={product.id}
                 description={product.description}
                 thumbnail={product.thumbnail}
                 title={product.title}

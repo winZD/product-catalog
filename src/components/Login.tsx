@@ -1,6 +1,8 @@
 import React, { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const authenticate = async (
     username: string,
     password: string
@@ -23,6 +25,7 @@ const Login = () => {
       if (data) {
         localStorage.setItem("at", data.accessToken);
         localStorage.setItem("rt", data.refreshToken);
+        navigate("/cart");
       }
 
       console.log(data);
@@ -54,6 +57,7 @@ const Login = () => {
             type="text"
             id="username"
             name="username"
+            readOnly
             value={"emilys"}
             placeholder="Enter your email"
             className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -68,6 +72,7 @@ const Login = () => {
           <input
             type="password"
             id="password"
+            readOnly
             name="password"
             value={"emilyspass"}
             placeholder="Enter your password"

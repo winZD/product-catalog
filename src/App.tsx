@@ -38,12 +38,14 @@ function App() {
         <BrowserRouter>
           <Routes>
             {" "}
-            <Route path="/" element={<Layout />} />
-            <Route path="/login" element={<Login />}>
-              {/* <Route index element={<RecentActivity />} />
-        <Route path="project/:id" element={<Project />} /> */}
+            <Route path="/" element={<Layout />}>
+              <Route index element={<ProductCatalogClient />} />
+              <Route path="/server-pagination" element={<ProductCatalog />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
             </Route>
-            <Route path="/cart" element={<Cart />}></Route>
+            {/* <Route index element={<RecentActivity />} />
+        <Route path="project/:id" element={<Project />} /> */}
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

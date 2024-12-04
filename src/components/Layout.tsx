@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCatalogClient from "./ProductCatalogClient";
 import { ProductCatalog } from "./ProductCatalog";
-import { useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { store } from "../store/store";
 import { useSnapshot } from "valtio";
 import { jwtDecode } from "jwt-decode";
@@ -21,15 +21,16 @@ const Layout = () => {
   useEffect(() => {
     // Initialize cart count from localStorage on first render
     store.cart = JSON.parse(localStorage.getItem("product") || "[]");
-  }, []);
+  }, [snap.cart]);
 
   return (
-    <>
-      <header className="flex p-3 justify-center items-center bg-blue-400">
+    <div className="w-full h-screen flex flex-col items-center">
+      <header className="flex p-3 justify-center items-center bg-blue-400 w-full">
         <div className="flex items-center justify-between w-full">
           <div className="flex gap-x-1 items-center">
-            <span className="mr-3 text-gray-700">SERVER PAGINATION</span>
-            <label
+            <Link to={"server-pagination"}>SERVER PAGINATION</Link>
+
+            {/*   <label
               htmlFor="toggleSwitch"
               className="relative inline-flex items-center cursor-pointer"
             >
@@ -41,7 +42,7 @@ const Layout = () => {
               />
               <div className="w-11 h-6 bg-gray-200 rounded-full peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300"></div>
               <div className="absolute top-0.5 left-1 w-5 h-5 bg-white border rounded-full peer-checked:translate-x-full peer-checked:border-white"></div>
-            </label>
+            </label> */}
           </div>
           <div className="flex gap-x-3">
             <button
@@ -56,8 +57,9 @@ const Layout = () => {
           </div>
         </div>
       </header>
-      {serverPagination ? <ProductCatalog /> : <ProductCatalogClient />}
-    </>
+      {/* {serverPagination ? <ProductCatalog /> : <ProductCatalogClient />} */}
+      <Outlet />
+    </div>
   );
 };
 

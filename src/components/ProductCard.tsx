@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { store } from "../store/store";
 
 export const ProductCard: React.FC<Product> = ({
+  id,
   thumbnail,
   title,
   description,
@@ -60,7 +61,7 @@ export const ProductCard: React.FC<Product> = ({
         <p>{description}</p>
         <p className="text-green-700 font-bold mt-2">${price}</p>
         <button
-          className="bg-blue-800 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2"
+          className="bg-blue-500 uppercase hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white"
           disabled={invalid}
           onClick={() => {
             const existingCart = JSON.parse(
@@ -69,13 +70,13 @@ export const ProductCard: React.FC<Product> = ({
 
             const updatedCart = [
               ...existingCart,
-              { thumbnail, title, description, price },
+              { id, thumbnail, title, description, price },
             ];
             localStorage.setItem("product", JSON.stringify(updatedCart));
             store.cart = updatedCart;
           }}
         >
-          KOŠARICA
+          add to cart
         </button>
       </Modal>
     </div>
