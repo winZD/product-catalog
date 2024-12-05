@@ -114,8 +114,8 @@ export const ProductCatalog = () => {
   if (productsError || categoriesError) return <p>Error loading data!</p>;
 
   return (
-    <>
-      <div className="w-full flex justify-evenly">
+    <div className="w-full">
+      <div className="grid p-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <div className="relative">
           <input
             type="text"
@@ -138,7 +138,7 @@ export const ProductCatalog = () => {
           </svg>
         </div>
         <select
-          className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="py-2 px-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">All Categories</option>
@@ -149,7 +149,7 @@ export const ProductCatalog = () => {
           ))}
         </select>
         <select
-          className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="py-2 px-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           onChange={(e) => setSortPrice({ value: e.target.value })}
         >
           {[{ value: "" }, { value: "asc" }, { value: "desc" }].map(
@@ -168,24 +168,8 @@ export const ProductCatalog = () => {
         >
           Search
         </button>
-        <div className="flex justify-center mt-4">
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            onClick={() => setPage((old) => Math.max(old - 20, 0))}
-            disabled={page === 0}
-          >
-            Previous
-          </button>
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 ml-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
-            onClick={() => setPage((old) => old + 20)}
-            disabled={page / 20 + 1 >= totalPages}
-          >
-            Next
-          </button>
-        </div>
       </div>
-      <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
+      <div className="grid p-2 sm:grid-cols-2 lg:3 xl:grid-cols-4 justify-center gap-4">
         {products.products.map((product) => (
           <div key={product.id}>
             <ProductCard
@@ -197,6 +181,22 @@ export const ProductCatalog = () => {
           </div>
         ))}
       </div>
-    </>
+      <div className="flex justify-center mt-4">
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
+          onClick={() => setPage((old) => Math.max(old - 20, 0))}
+          disabled={page === 0}
+        >
+          Previous
+        </button>
+        <button
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 ml-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
+          onClick={() => setPage((old) => old + 20)}
+          disabled={page / 20 + 1 >= totalPages}
+        >
+          Next
+        </button>
+      </div>
+    </div>
   );
 };
