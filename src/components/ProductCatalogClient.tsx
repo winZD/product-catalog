@@ -79,8 +79,8 @@ const ProductCatalogClient = () => {
   const totalPages = filteredData ? Math.ceil(filteredData.total! / limit) : 0;
 
   return (
-    <>
-      <div className="w-full flex justify-evenly p-3 bg-blue-100">
+    <div className="w-full">
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 p-3 bg-blue-100">
         <div className="">
           {/*      <label
             htmlFor="category-filter"
@@ -91,8 +91,8 @@ const ProductCatalogClient = () => {
           <div className="flex relative">
             <input
               type="text"
-              placeholder="Search..."
-              className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Search by title..."
+              className=" py-2 pl-10 pr-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               onChange={(e) => {
                 setPage(0);
                 setSearchQuery(e.target.value);
@@ -132,13 +132,13 @@ const ProductCatalogClient = () => {
           </label> */}
           <select
             id="category-filter"
-            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => {
               setPage(0);
               setSelectedCategory(e.target.value);
             }}
           >
-            <option value="">All</option>
+            <option value="">All categories</option>
             {categories!.map((cat) => (
               <option key={cat.slug} value={cat.url}>
                 {cat.name}
@@ -154,7 +154,7 @@ const ProductCatalogClient = () => {
             Prices
           </label> */}
           <select
-            className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => {
               setPage(0);
               const range = priceRanges.find((r) => r.label === e.target.value);
@@ -179,13 +179,13 @@ const ProductCatalogClient = () => {
             Sort products
           </label> */}
           <select
-            className="w-full py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             onChange={(e) => {
               setPage(0);
               setSortBy(e.target.value);
             }}
           >
-            <option value="">Sort Products</option>
+            <option value="">All products</option>
             <option value="price_asc">Price: Low to High</option>
             <option value="price_desc">Price: High to Low</option>
             <option value="title_asc">Name: A to Z</option>
@@ -194,7 +194,7 @@ const ProductCatalogClient = () => {
         </div>
       </div>
 
-      <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
+      <div className="grid p-2 sm:grid-cols-2 lg:3 xl:grid-cols-4 justify-center gap-4">
         {filteredData &&
           filteredData.products.map((product) => (
             <div key={product.id} className="flex justify-center">
@@ -229,7 +229,7 @@ const ProductCatalogClient = () => {
           Next
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

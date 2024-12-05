@@ -10,9 +10,11 @@ export const ProductCatalog = () => {
   const [data, setData] = useState<ProductResponse>();
   const [filteredData, setFilteredData] = useState<ProductResponse>();
   const [searchQuery, setSearchQuery] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [category, setCategory] = useState<string>("");
+  const [sortPrice, setSortPrice] = useState<{ value: string }>();
+  /*   const [categories, setCategories] = useState<Category[]>([]);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(""); */
 
   // Calculate paginated products
   /*   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -21,7 +23,7 @@ export const ProductCatalog = () => {
   const currentProducts = products.slice(startIndex, endIndex); */
   const [page, setPage] = useState(0);
   const limit = 20;
-  useEffect(() => {
+  /*  useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
@@ -52,18 +54,25 @@ export const ProductCatalog = () => {
 
     fetchProducts();
     fetchCategories();
-  }, [page]);
+  }, [page]); */
 
-  const totalPages = Math.ceil(filteredData! && filteredData!.total! / limit);
+  //const totalPages = Math.ceil(filteredData! && filteredData!.total! / limit);
 
-  const [sortBy, setSortBy] = useState({
+  /*  const [sortBy, setSortBy] = useState({
     name: "",
     price: "",
-  });
-  /*   const fetchProducts = async (): Promise<ProductResponse> => {
+  }); */
+  const fetchProducts = async (): Promise<ProductResponse> => {
     const response = await fetch(
-      `https://dummyjson.com/products?limit=${limit}&skip=${page}`
+      category
+        ? `${category}${
+            sortPrice?.value ? `?sortBy=price&order=${sortPrice.value}&` : "?"
+          }limit=${limit}&skip=${page}&select=title,price,thumbnail,description`
+        : `https://dummyjson.com/products?limit=${limit}&skip=${page}${
+            sortPrice?.value ? `&sortBy=price&order=${sortPrice.value}` : ""
+          }&select=title,price,thumbnail,description`
     );
+
     if (!response.ok) {
       throw new Error("Failed to fetch products");
     }
@@ -82,7 +91,14 @@ export const ProductCatalog = () => {
     error: productsError,
     isPending: productsLoading,
   } = useQuery({
-    queryKey: ["products", page, limit, searchQuery],
+    queryKey: [
+      "products",
+      page,
+      limit,
+      sortPrice?.value,
+      category /* searchQuery */,
+    ],
+
     queryFn: fetchProducts,
   });
   const {
@@ -92,11 +108,10 @@ export const ProductCatalog = () => {
   } = useQuery({
     queryKey: ["categories"],
     queryFn: fetchCategories,
-    
   });
   const totalPages = Math.ceil(products! && products!.total! / limit);
   if (productsLoading || categoriesLoading) return <p>Loading...</p>;
-  if (productsError || categoriesError) return <p>Error loading data!</p>; */
+  if (productsError || categoriesError) return <p>Error loading data!</p>;
 
   return (
     <>
@@ -124,7 +139,7 @@ export const ProductCatalog = () => {
         </div>
         <select
           className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          /* onChange={(e) => setSelectedCategory(e.target.value)} */
+          onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">All Categories</option>
           {categories!.map((cat) => (
@@ -135,19 +150,21 @@ export const ProductCatalog = () => {
         </select>
         <select
           className="py-2 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          /*  onChange={(e) => setSelectedPriceRange(e.target.value)} */
+          onChange={(e) => setSortPrice({ value: e.target.value })}
         >
-          {priceRanges.map((range) => (
-            <option key={range.label} value={range.label}>
-              {range.label}
-            </option>
-          ))}
+          {[{ value: "" }, { value: "asc" }, { value: "desc" }].map(
+            (option) => (
+              <option key={option.value} value={option.value}>
+                {option.value}
+              </option>
+            )
+          )}
         </select>
         <button
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-          onClick={() =>
+          /* onClick={() =>
             setFilteredData(handleFilterServer(searchQuery, data!, sortBy))
-          }
+          } */
         >
           Search
         </button>
@@ -169,19 +186,16 @@ export const ProductCatalog = () => {
         </div>
       </div>
       <div className="grid p-2 sm:grid-cols-2 md:grid-cols-4 justify-center gap-4">
-        {filteredData &&
-          handleFilterServer(searchQuery, data!, sortBy)!.products.map(
-            (product) => (
-              <div key={product.id}>
-                <ProductCard
-                  description={product.description}
-                  thumbnail={product.thumbnail}
-                  title={product.title}
-                  price={product.price}
-                />
-              </div>
-            )
-          )}
+        {products.products.map((product) => (
+          <div key={product.id}>
+            <ProductCard
+              description={product.description}
+              thumbnail={product.thumbnail}
+              title={product.title}
+              price={product.price}
+            />
+          </div>
+        ))}
       </div>
     </>
   );

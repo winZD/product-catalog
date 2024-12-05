@@ -81,20 +81,6 @@ const Login = () => {
           />
         </div>
 
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <input
-              type="checkbox"
-              id="remember"
-              name="remember"
-              className="mr-2"
-            />
-            <label htmlFor="remember" className="text-gray-600">
-              Remember me
-            </label>
-          </div>
-        </div>
-
         <button
           type="submit"
           className="w-full p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
