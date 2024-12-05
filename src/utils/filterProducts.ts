@@ -18,7 +18,7 @@ export const handleFilter = (
   priceRange: { min: number; max: number }
 ) => {
   const filterByTitle = data?.products.filter((product) =>
-    product.title.toLowerCase().startsWith(title.toLowerCase())
+    product.title.toLowerCase().includes(title.toLowerCase())
   );
   console.log(title);
 

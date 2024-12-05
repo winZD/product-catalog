@@ -93,6 +93,7 @@ const ProductCatalogClient = () => {
               type="text"
               placeholder="Search by title..."
               className=" py-2 pl-10 pr-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              value={searchQuery}
               onChange={(e) => {
                 setPage(0);
                 setSearchQuery(e.target.value);
@@ -111,7 +112,7 @@ const ProductCatalogClient = () => {
                 d="M12.74 11.74a8 8 0 1 0-1.42 1.42l4.5 4.5a1 1 0 0 0 1.42-1.42l-4.5-4.5zm-7.74-.74a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"
               />
             </svg>
-            <button
+            {/* <button
               className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
               onClick={() =>
                 setFilteredData(
@@ -120,7 +121,7 @@ const ProductCatalogClient = () => {
               }
             >
               Search
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="">
@@ -133,6 +134,7 @@ const ProductCatalogClient = () => {
           <select
             id="category-filter"
             className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={selectedCategory}
             onChange={(e) => {
               setPage(0);
               setSelectedCategory(e.target.value);
@@ -155,6 +157,11 @@ const ProductCatalogClient = () => {
           </label> */}
           <select
             className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={
+              priceRanges.find(
+                (r) => r.min === priceRange.min && r.max === priceRange.max
+              )?.label || ""
+            }
             onChange={(e) => {
               setPage(0);
               const range = priceRanges.find((r) => r.label === e.target.value);
@@ -180,6 +187,7 @@ const ProductCatalogClient = () => {
           </label> */}
           <select
             className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={sortBy}
             onChange={(e) => {
               setPage(0);
               setSortBy(e.target.value);
@@ -191,6 +199,20 @@ const ProductCatalogClient = () => {
             <option value="title_asc">Name: A to Z</option>
             <option value="title_desc">Name: Z to A</option>
           </select>
+        </div>
+        <div>
+          {" "}
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+            onClick={() => {
+              setSearchQuery("");
+              setPriceRange({ min: 0, max: Infinity });
+              setSelectedCategory("");
+              setSortBy("");
+            }}
+          >
+            Reset
+          </button>
         </div>
       </div>
 
