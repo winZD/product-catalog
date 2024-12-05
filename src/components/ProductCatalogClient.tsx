@@ -209,6 +209,7 @@ const ProductCatalogClient = () => {
               setPriceRange({ min: 0, max: Infinity });
               setSelectedCategory("");
               setSortBy("");
+              setPage(0);
             }}
           >
             Reset
