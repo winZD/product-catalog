@@ -112,9 +112,32 @@ const Cart = () => {
             <button
               className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600"
               onClick={async () => {
-                if (!decoded || (decoded && decoded.exp!) < Date.now() / 1000) {
+                console.log(decoded);
+                if (!decoded) {
                   navigate("/login");
+                  return;
+                }
+                if ((decoded && decoded.exp!) < Date.now() / 1000) {
                   /*  await authenticate(); */
+
+                  const response = await fetch(
+                    "https://dummyjson.com/auth/refresh",
+                    {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        refreshToken: localStorage.getItem("rt"), // Optional, if not provided, the server will use the cookie
+                        expiresInMins: 30, // optional (FOR ACCESS TOKEN), defaults to 60
+                      }),
+                    }
+                  );
+
+                  const data = await response.json();
+
+                  if (data) {
+                    localStorage.setItem("at", data.accessToken);
+                    localStorage.setItem("rt", data.refreshToken);
+                  }
                 }
               }}
             >
