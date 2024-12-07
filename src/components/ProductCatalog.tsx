@@ -1,10 +1,8 @@
 import { FormEvent, useEffect, useState } from "react";
-import { Product, ProductResponse } from "../model/product";
+import { ProductResponse } from "../model/product";
 import { ProductCard } from "./ProductCard";
-import { handleFilter, handleFilterServer } from "../utils/filterProducts";
 import { Category } from "../model/category";
-import { priceRanges } from "../utils/ranges";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export const ProductCatalog = () => {
   const [data, setData] = useState<ProductResponse | null>();
@@ -22,6 +20,9 @@ export const ProductCatalog = () => {
   const endIndex = startIndex + productsPerPage;
   const currentProducts = products.slice(startIndex, endIndex); */
   const [page, setPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [category, setCategory] = useState<string>("");
+  const [sortPrice, setSortPrice] = useState<{ value: string }>();
   const limit = 20;
   useEffect(() => {
     const fetchProducts = async () => {
@@ -33,8 +34,6 @@ export const ProductCatalog = () => {
         //setData(data.products);
         setData(data);
         /* setFilteredData(data); */
-
-        console.log(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -54,6 +53,11 @@ export const ProductCatalog = () => {
 
     fetchProducts();
   }, [page]);
+
+  useEffect(() => {
+    setSearchQuery("");
+    setSortPrice({ value: "" });
+  }, [category]);
 
   //const totalPages = Math.ceil(filteredData! && filteredData!.total! / limit);
 
@@ -114,19 +118,20 @@ export const ProductCatalog = () => {
   ): Promise<void> => {
     event.preventDefault(); // Prevent default form submission
 
-    const formData = new FormData(event.currentTarget);
-    const searchQuery = formData.get("searchQuery") as string;
+    /*   const formData = new FormData(event.currentTarget); */
+    /*  const searchQuery = formData.get("searchQuery") as string;
     const category = formData.get("category") as string;
-    const sortPrice = formData.get("sortPrice") as string;
+    const sortPrice = formData.get("sortPrice") as string; */
+
     console.log({ searchQuery, category, sortPrice });
     setPage(0);
     const response = await fetch(
       category
         ? `${category}${
-            sortPrice ? `?sortBy=price&order=${sortPrice}&` : "?"
+            sortPrice ? `?sortBy=price&order=${sortPrice.value}&` : "?"
           }limit=${limit}&skip=${page}&select=title,price,thumbnail,description`
-        : `https://dummyjson.com/products?limit=${limit}&skip=${page}${
-            sortPrice ? `&sortBy=price&order=${sortPrice}` : ""
+        : `https://dummyjson.com/products/search?q=${searchQuery}&limit=${limit}&skip=${page}${
+            sortPrice ? `&sortBy=price&order=${sortPrice.value}` : ""
           }&select=title,price,thumbnail,description`
     );
 
@@ -147,8 +152,10 @@ export const ProductCatalog = () => {
         <div className="relative">
           <input
             type="text"
-            name="searchQuery"
+            /*   name="searchQuery" */
+            value={searchQuery}
             placeholder="Search..."
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
           <svg
@@ -167,7 +174,9 @@ export const ProductCatalog = () => {
         </div>
         <select
           className="py-2 px-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          name="category"
+          /* name="category" */
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">All Categories</option>
           {categories!.map((cat) => (
@@ -178,15 +187,19 @@ export const ProductCatalog = () => {
         </select>
         <select
           className="py-2 px-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          name="sortPrice"
+          value={sortPrice?.value}
+          /* name="sortPrice" */
+          onChange={(e) => setSortPrice({ value: e.target.value })}
         >
-          {[{ value: "" }, { value: "asc" }, { value: "desc" }].map(
-            (option) => (
-              <option key={option.value} value={option.value}>
-                {option.value}
-              </option>
-            )
-          )}
+          {[
+            { label: "All products", value: "" },
+            { label: "ASC", value: "asc" },
+            { label: "DESC", value: "desc" },
+          ].map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
         <button
           type="submit"

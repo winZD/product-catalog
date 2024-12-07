@@ -17,7 +17,6 @@ export const ProductCard: React.FC<Product> = ({
   const handleCloseModal = () => setIsModalOpen(false);
   const at = localStorage?.getItem("at");
   const decoded = at ? jwtDecode(at!) : 0;
-  console.log(decoded);
 
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300">
