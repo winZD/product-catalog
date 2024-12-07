@@ -147,8 +147,11 @@ export const ProductCatalog = () => {
   if (categoriesError) return <p>Error loading data!</p>;
 
   return (
-    <form className="w-full" onSubmit={handleSubmit}>
-      <div className="grid p-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="w-full">
+      <form
+        className="grid p-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        onSubmit={handleSubmit}
+      >
         <div className="relative">
           <input
             type="text"
@@ -210,7 +213,7 @@ export const ProductCatalog = () => {
         >
           Search
         </button>
-      </div>
+      </form>
       <div className="grid p-2 sm:grid-cols-2 lg:3 xl:grid-cols-4 justify-center gap-4">
         {data &&
           data.products.map((product) => (
@@ -249,6 +252,6 @@ export const ProductCatalog = () => {
           Next
         </button>
       </div>
-    </form>
+    </div>
   );
 };

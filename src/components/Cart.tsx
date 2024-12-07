@@ -7,9 +7,11 @@ const Cart = () => {
   const [cartItems] = useState<CartModel[]>(
     JSON.parse(localStorage.getItem("product") || "[]")
   );
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const at = localStorage?.getItem("at");
+
   const decoded = at ? jwtDecode(at!) : 0;
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -48,8 +50,10 @@ const Cart = () => {
           <div className="text-right">
             <h2 className="text-xl font-bold">Total: {totalPrice + "$"}</h2>
             <button
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600"
+              className={`bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed`}
+              disabled={isLoading}
               onClick={async () => {
+                setIsLoading(true);
                 console.log(decoded);
                 if (!decoded) {
                   navigate("/login");
@@ -75,7 +79,9 @@ const Cart = () => {
                   if (data) {
                     localStorage.setItem("at", data.accessToken);
                     localStorage.setItem("rt", data.refreshToken);
+                    setIsLoading(false);
                   }
+                  navigate("/");
                 }
               }}
             >
