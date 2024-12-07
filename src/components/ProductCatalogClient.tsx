@@ -28,7 +28,7 @@ const ProductCatalogClient = () => {
             : `https://dummyjson.com/products?limit=0`
         );
         const data = await response.json();
-        //setData(data.products);
+
         setOriginalData(data);
         setFilteredData(handleFilter(searchQuery, data, sortBy, priceRange));
 
@@ -55,7 +55,6 @@ const ProductCatalogClient = () => {
   }, [selectedCategory]);
   useEffect(() => {
     if (originalData) {
-      /* const filtered = handleFilter(searchQuery, data, sortBy); //fix; */
       setFilteredData({
         ...filteredData,
         products: handleFilter(
@@ -82,12 +81,6 @@ const ProductCatalogClient = () => {
     <div className="w-full">
       <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 p-3 bg-blue-100">
         <div className="">
-          {/*      <label
-            htmlFor="category-filter"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Search
-          </label> */}
           <div className="flex relative">
             <input
               type="text"
@@ -112,25 +105,9 @@ const ProductCatalogClient = () => {
                 d="M12.74 11.74a8 8 0 1 0-1.42 1.42l4.5 4.5a1 1 0 0 0 1.42-1.42l-4.5-4.5zm-7.74-.74a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"
               />
             </svg>
-            {/* <button
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-              onClick={() =>
-                setFilteredData(
-                  handleFilter(searchQuery, originalData!, sortBy, priceRange)
-                )
-              }
-            >
-              Search
-            </button> */}
           </div>
         </div>
-        <div className="">
-          {/*      <label
-            htmlFor="category-filter"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Categories
-          </label> */}
+        <div>
           <select
             id="category-filter"
             className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -148,13 +125,7 @@ const ProductCatalogClient = () => {
             ))}
           </select>
         </div>
-        <div className="">
-          {/*  <label
-            htmlFor="category-filter"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Prices
-          </label> */}
+        <div>
           <select
             className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={
@@ -178,13 +149,7 @@ const ProductCatalogClient = () => {
             ))}
           </select>
         </div>
-        <div className="">
-          {/* <label
-            htmlFor="category-filter"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
-            Sort products
-          </label> */}
+        <div>
           <select
             className="py-2 px-4 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             value={sortBy}
