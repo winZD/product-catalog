@@ -46,12 +46,12 @@ const Login = () => {
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg w-80">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-        Login
+        Login form
       </h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700">
-            Email Address
+          <label htmlFor="username" className="block text-gray-700">
+            Username
           </label>
           <input
             type="text"

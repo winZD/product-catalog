@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Product } from "../model/product";
 import { Modal } from "./ProductModal";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+
 import { store } from "../store/store";
 
 export const ProductCard: React.FC<Product> = ({
@@ -12,10 +12,10 @@ export const ProductCard: React.FC<Product> = ({
   description,
   price,
 }) => {
-  const navigate = useNavigate();
+  /*  const navigate = useNavigate(); */
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  let invalid = false;
+  /*   let invalid = false; */
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -62,7 +62,6 @@ export const ProductCard: React.FC<Product> = ({
         <p className="text-green-700 font-bold mt-2">${price}</p>
         <button
           className="bg-blue-500 uppercase hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white"
-          disabled={invalid}
           onClick={() => {
             const existingCart = JSON.parse(
               localStorage.getItem("product") || "[]"
