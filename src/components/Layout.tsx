@@ -33,8 +33,8 @@ const Layout = () => {
             >
               {`CART ${snap.cart.length ? snap.cart.length : ""}`}
             </button>
-            <button className="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed rounded-lg p-2 text-white">
-              {`Logged in as  ${decoded ? userName : "GUEST"}`}
+            <button className="bg-blue-500 rounded-lg p-2 text-white uppercase">
+              {`${decoded ? userName : "guest"}`}
             </button>
           </div>
         </div>
