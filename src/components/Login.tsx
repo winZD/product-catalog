@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -16,8 +16,6 @@ const Login = () => {
           password,
           expiresInMins: 30, // optional, defaults to 60
         }),
-        /*         credentials: "include", // Include cookies (e.g., accessToken) in the request
-         */
       });
 
       const data = await response.json();
@@ -27,15 +25,13 @@ const Login = () => {
         localStorage.setItem("rt", data.refreshToken);
         navigate("/cart");
       }
-
-      console.log(data);
     } catch (error) {
       console.error("Error fetching user:", error);
     }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const username = formData.get("username") as string;
