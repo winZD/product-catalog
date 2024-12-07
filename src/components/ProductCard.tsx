@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Product } from "../model/product";
 import { Modal } from "./ProductModal";
 import { jwtDecode } from "jwt-decode";
-
 import { store } from "../store/store";
 
 export const ProductCard: React.FC<Product> = ({
@@ -12,18 +11,13 @@ export const ProductCard: React.FC<Product> = ({
   description,
   price,
 }) => {
-  /*  const navigate = useNavigate(); */
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  /*   let invalid = false; */
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const at = localStorage?.getItem("at");
   const decoded = at ? jwtDecode(at!) : 0;
   console.log(decoded);
-  /*
-   */
 
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300">
