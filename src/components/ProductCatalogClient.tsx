@@ -166,21 +166,27 @@ const ProductCatalogClient = () => {
             ))}
           </select>
         </div>
-        <div>
-          {" "}
-          <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-            onClick={() => {
-              setSearchQuery("");
-              setPriceRange({ min: 0, max: Infinity });
-              setSelectedCategory("");
-              setSortBy("");
-              setPage(0);
-            }}
-          >
-            Reset
-          </button>
-        </div>
+
+        {(searchQuery ||
+          (priceRange.min !== 0 && priceRange.max !== Infinity) ||
+          selectedCategory ||
+          page !== 0) && (
+          <div>
+            {" "}
+            <button
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
+              onClick={() => {
+                setSearchQuery("");
+                setPriceRange({ min: 0, max: Infinity });
+                setSelectedCategory("");
+                setSortBy("");
+                setPage(0);
+              }}
+            >
+              Reset
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="grid p-2 sm:grid-cols-2 lg:3 xl:grid-cols-4 justify-center gap-4">
