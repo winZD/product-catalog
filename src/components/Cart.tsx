@@ -60,16 +60,14 @@ const Cart = () => {
                   return;
                 }
                 if ((decoded && decoded.exp!) < Date.now() / 1000) {
-                  /*  await authenticate(); */
-
                   const response = await fetch(
                     "https://dummyjson.com/auth/refresh",
                     {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
-                        refreshToken: localStorage.getItem("rt"), // Optional, if not provided, the server will use the cookie
-                        expiresInMins: 30, // optional (FOR ACCESS TOKEN), defaults to 60
+                        refreshToken: localStorage.getItem("rt"),
+                        expiresInMins: 30,
                       }),
                     }
                   );

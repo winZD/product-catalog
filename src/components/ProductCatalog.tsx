@@ -6,19 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const ProductCatalog = () => {
   const [data, setData] = useState<ProductResponse | null>();
-  /*   const [filteredData, setFilteredData] = useState<ProductResponse>();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [category, setCategory] = useState<string>("");
-  const [sortPrice, setSortPrice] = useState<{ value: string }>(); */
-  /* const [categories, setCategories] = useState<Category[]>([]);
 
-  const [selectedCategory, setSelectedCategory] = useState("");
- */
-  // Calculate paginated products
-  /*   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-  const startIndex = (currentPage - 1) * productsPerPage;
-  const endIndex = startIndex + productsPerPage;
-  const currentProducts = products.slice(startIndex, endIndex); */
   const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState<string>("");
@@ -31,25 +19,12 @@ export const ProductCatalog = () => {
           `https://dummyjson.com/products?limit=${limit}&skip=${page}`
         );
         const data = await response.json();
-        //setData(data.products);
+
         setData(data);
-        /* setFilteredData(data); */
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
-    /*  const fetchCategories = async () => {
-      try {
-        const response = await fetch(
-          "https://dummyjson.com/products/categories"
-        );
-        const data = await response.json();
-
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    }; */
 
     fetchProducts();
   }, [page]);
@@ -59,29 +34,6 @@ export const ProductCatalog = () => {
     setSortPrice({ value: "" });
   }, [category]);
 
-  //const totalPages = Math.ceil(filteredData! && filteredData!.total! / limit);
-
-  /*  const [sortBy, setSortBy] = useState({
-    name: "",
-    price: "",
-  }); */
-  /*   const fetchProducts = async (): Promise<ProductResponse> => {
-    const response = await fetch(
-      category
-        ? `${category}${
-            sortPrice?.value ? `?sortBy=price&order=${sortPrice.value}&` : "?"
-          }limit=${limit}&skip=${page}&select=title,price,thumbnail,description`
-        : `https://dummyjson.com/products?limit=${limit}&skip=${page}${
-            sortPrice?.value ? `&sortBy=price&order=${sortPrice.value}` : ""
-          }&select=title,price,thumbnail,description`
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch products");
-    }
-    return response.json();
-  };
- */
   const fetchCategories = async (): Promise<Category[]> => {
     const response = await fetch("https://dummyjson.com/products/categories");
     if (!response.ok) {
@@ -89,21 +41,7 @@ export const ProductCatalog = () => {
     }
     return response.json();
   };
-  /*  const {
-    data: products,
-    error: productsError,
-    isPending: productsLoading,
-  } = useQuery({
-    queryKey: [
-      "products",
-      page,
-      limit,
-      sortPrice?.value,
-      category, searchQuery,
-    ],
 
-    queryFn: fetchProducts,
-  }); */
   const {
     data: categories,
     error: categoriesError,
@@ -116,12 +54,7 @@ export const ProductCatalog = () => {
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
-    event.preventDefault(); // Prevent default form submission
-
-    /*   const formData = new FormData(event.currentTarget); */
-    /*  const searchQuery = formData.get("searchQuery") as string;
-    const category = formData.get("category") as string;
-    const sortPrice = formData.get("sortPrice") as string; */
+    event.preventDefault();
 
     console.log({ searchQuery, category, sortPrice });
     setPage(0);
@@ -142,7 +75,6 @@ export const ProductCatalog = () => {
     setData(data);
   };
   const totalPages = Math.ceil(data! && data!.total! / limit);
-  //const totalPages = Math.ceil(products! && products!.total! / limit);
   if (categoriesLoading) return <p>Loading...</p>;
   if (categoriesError) return <p>Error loading data!</p>;
 
@@ -155,7 +87,6 @@ export const ProductCatalog = () => {
         <div className="relative">
           <input
             type="text"
-            /*   name="searchQuery" */
             value={searchQuery}
             placeholder="Search..."
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -177,7 +108,6 @@ export const ProductCatalog = () => {
         </div>
         <select
           className="py-2 px-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          /* name="category" */
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
@@ -191,7 +121,6 @@ export const ProductCatalog = () => {
         <select
           className="py-2 px-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={sortPrice?.value}
-          /* name="sortPrice" */
           onChange={(e) => setSortPrice({ value: e.target.value })}
         >
           {[
@@ -207,9 +136,6 @@ export const ProductCatalog = () => {
         <button
           type="submit"
           className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-          /* onClick={() =>
-            setFilteredData(handleFilterServer(searchQuery, data!, sortBy))
-          } */
         >
           Search
         </button>

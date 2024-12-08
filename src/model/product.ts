@@ -32,16 +32,16 @@ export interface Dimensions {
 export interface Review {
   rating: number;
   comment: string;
-  date: string; // ISO 8601 format string
+  date: string;
   reviewerName: string;
   reviewerEmail: string;
 }
 
 export interface MetaData {
-  createdAt: string; // ISO 8601 format string
-  updatedAt: string; // ISO 8601 format string
+  createdAt: string;
+  updatedAt: string;
   barcode: string;
-  qrCode: string; // URL as string
+  qrCode: string;
 }
 
 export type ProductResponse = {
