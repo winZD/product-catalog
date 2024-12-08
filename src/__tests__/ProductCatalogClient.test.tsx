@@ -29,9 +29,9 @@ describe("ProductCard Component", () => {
     expect(screen.getByText("$20.99")).toBeInTheDocument();
   });
 
-  test("should open modal when 'Detalji' button is clicked", () => {
+  test("should open modal when 'Details' button is clicked", () => {
     render(<ProductCard {...product} />);
-    fireEvent.click(screen.getByText(/Detalji/));
+    fireEvent.click(screen.getByText(/Details/));
     expect(
       screen.getByRole("heading", { level: 2, name: product.title })
     ).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe("ProductCard Component", () => {
 
   test("should close modal when close button is clicked", () => {
     render(<ProductCard {...product} />);
-    fireEvent.click(screen.getByText(/Detalji/));
+    fireEvent.click(screen.getByText(/Details/));
     fireEvent.click(screen.getByRole("button", { name: "×" }));
     expect(
       screen.queryByRole("heading", { level: 2, name: product.title })
@@ -48,7 +48,7 @@ describe("ProductCard Component", () => {
 
   test("should add item to cart when 'add to cart' button is clicked", () => {
     render(<ProductCard {...product} />);
-    fireEvent.click(screen.getByText(/Detalji/));
+    fireEvent.click(screen.getByText(/Details/));
     fireEvent.click(screen.getByText(/add to cart/));
     expect(localStorage.setItem).toHaveBeenCalledWith(
       "product",

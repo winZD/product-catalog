@@ -37,7 +37,7 @@ export const ProductCard: React.FC<Product> = ({
           onClick={handleOpenModal}
           className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
         >
-          Detalji
+          Details
         </button>
       </div>
       {/* Modal Component */}
