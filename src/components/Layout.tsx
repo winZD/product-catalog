@@ -20,7 +20,7 @@ const Layout = () => {
   }, [snap.cart]);
 
   return (
-    <div className="w-full h-screen flex flex-col items-center">
+    <div className="w-full h-screen flex flex-col items-center font-medium">
       <header className="flex p-3 justify-center items-center bg-blue-400 w-full">
         <div className="flex items-center justify-between w-full">
           <div className="flex gap-x-1 items-center">

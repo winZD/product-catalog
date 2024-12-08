@@ -66,6 +66,7 @@ export const ProductCard: React.FC<Product> = ({
             localStorage.setItem("product", JSON.stringify(updatedCart));
             store.cart = updatedCart;
             notify();
+            handleCloseModal();
           }}
         >
           add to cart

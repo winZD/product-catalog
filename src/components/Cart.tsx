@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CartModel } from "../model/cart";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const [cartItems] = useState<CartModel[]>(
@@ -14,6 +15,8 @@ const Cart = () => {
 
   const decoded = at ? jwtDecode(at!) : 0;
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const notify = () => toast.info("Checkout completed!");
 
   useEffect(() => {
     const total = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -54,7 +57,6 @@ const Cart = () => {
               disabled={isLoading}
               onClick={async () => {
                 setIsLoading(true);
-                console.log(decoded);
                 if (!decoded) {
                   navigate("/login");
                   return;
@@ -79,8 +81,10 @@ const Cart = () => {
                     localStorage.setItem("rt", data.refreshToken);
                     setIsLoading(false);
                   }
-                  navigate("/");
                 }
+                notify();
+                navigate("/");
+                localStorage.removeItem("product");
               }}
             >
               Proceed to Checkout
