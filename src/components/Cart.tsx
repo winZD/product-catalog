@@ -45,7 +45,7 @@ const Cart = () => {
                 </div>
                 <div className="w-3/4 pl-4">
                   <h2 className="text-lg font-bold">{item.title}</h2>
-                  <p>Price: {item.price + "$"}</p>
+                  <p>Price: {item.price.toFixed(2) + "$"}</p>
                 </div>
               </div>
             ))}
