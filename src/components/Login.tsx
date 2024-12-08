@@ -40,50 +40,52 @@ const Login = () => {
     authenticate(username, password);
   };
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg w-80">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-        Login form
-      </h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="username" className="block text-gray-700">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            readOnly
-            value={"emilys"}
-            placeholder="Enter your email"
-            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+    <div className="h-full flex justify-center w-full bg-blue-200">
+      <div className="bg-white p-8 rounded-lg shadow-lg my-auto">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Login form
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-gray-700">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              readOnly
+              value={"emilys"}
+              placeholder="Enter your email"
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
 
-        <div className="mb-6">
-          <label htmlFor="password" className="block text-gray-700">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            readOnly
-            name="password"
-            value={"emilyspass"}
-            placeholder="Enter your password"
-            className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              readOnly
+              name="password"
+              value={"emilyspass"}
+              placeholder="Enter your password"
+              className="w-full p-3 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
 
-        <button
-          type="submit"
-          className="w-full p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Login
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
