@@ -4,6 +4,7 @@ import { ProductCard } from "./ProductCard";
 import { Category } from "../model/category";
 import { ProductResponse } from "../model/product";
 import { priceRanges } from "../utils/ranges";
+import { sortOptions } from "../utils/sortOptions";
 
 const ProductCatalogClient = () => {
   const [originalData, setOriginalData] = useState<ProductResponse>();
@@ -158,11 +159,11 @@ const ProductCatalogClient = () => {
               setSortBy(e.target.value);
             }}
           >
-            <option value="">All products</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="title_asc">Name: A to Z</option>
-            <option value="title_desc">Name: Z to A</option>
+            {sortOptions.map((option, i) => (
+              <option key={i} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
         <div>
