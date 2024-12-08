@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Product } from "../model/product";
 import { Modal } from "./ProductModal";
 import { store } from "../store/store";
+import { toast } from "react-toastify";
 
 export const ProductCard: React.FC<Product> = ({
   id,
@@ -14,6 +15,7 @@ export const ProductCard: React.FC<Product> = ({
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+  const notify = () => toast.info("Added to cart!");
 
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md hover:shadow-2xl transition-shadow duration-300">
@@ -63,6 +65,7 @@ export const ProductCard: React.FC<Product> = ({
             ];
             localStorage.setItem("product", JSON.stringify(updatedCart));
             store.cart = updatedCart;
+            notify();
           }}
         >
           add to cart
