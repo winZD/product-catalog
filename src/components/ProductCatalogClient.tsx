@@ -32,8 +32,6 @@ const ProductCatalogClient = () => {
 
         setOriginalData(data);
         setFilteredData(handleFilter(searchQuery, data, sortBy, priceRange));
-
-        console.log(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }

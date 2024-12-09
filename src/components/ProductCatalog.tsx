@@ -56,7 +56,6 @@ export const ProductCatalog = () => {
   ): Promise<void> => {
     event.preventDefault();
 
-    console.log({ searchQuery, category, sortPrice });
     setPage(0);
     const response = await fetch(
       category
