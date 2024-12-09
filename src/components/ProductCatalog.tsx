@@ -83,28 +83,32 @@ export const ProductCatalog = () => {
         className="grid p-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
         onSubmit={handleSubmit}
       >
-        <div className="relative">
-          <input
-            type="text"
-            value={searchQuery}
-            placeholder="Search..."
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          />
-          <svg
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M12.74 11.74a8 8 0 1 0-1.42 1.42l4.5 4.5a1 1 0 0 0 1.42-1.42l-4.5-4.5zm-7.74-.74a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"
+        {!category && (
+          <div className="relative">
+            <input
+              type="text"
+              value={searchQuery}
+              placeholder="Search..."
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+              className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
-          </svg>
-        </div>
+            <svg
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12.74 11.74a8 8 0 1 0-1.42 1.42l4.5 4.5a1 1 0 0 0 1.42-1.42l-4.5-4.5zm-7.74-.74a6 6 0 1 1 6 6 6 6 0 0 1-6-6z"
+              />
+            </svg>
+          </div>
+        )}
         <select
           className="py-2 px-4 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={category}
@@ -123,9 +127,9 @@ export const ProductCatalog = () => {
           onChange={(e) => setSortPrice({ value: e.target.value })}
         >
           {[
-            { label: "All products", value: "" },
-            { label: "ASC", value: "asc" },
-            { label: "DESC", value: "desc" },
+            { label: "All prices", value: "" },
+            { label: "Price ASC", value: "asc" },
+            { label: "Price DESC", value: "desc" },
           ].map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
